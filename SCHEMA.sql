@@ -3,13 +3,12 @@ CREATE TABLE departments (
 	dept_no VARCHAR PRIMARY KEY,
 	dept_name VARCHAR
 );
--- NOT PULLING DATA<<<<
+
 CREATE TABLE dept_emp (
 	table_id SERIAL PRIMARY KEY,
 	emp_no INT ,
 	dept_no VARCHAR
 );
--- DROP TABLE dept_emp
 
 CREATE TABLE dept_manager (
 	dept_no VARCHAR,
@@ -54,7 +53,7 @@ FROM departments d
 RIGHT JOIN dept_manager dm
 ON d.dept_no = dm.dept_no
 LEFT JOIN employees e
-ON dm.emp_no = e.emp_no
+ON dm.emp_no = e.emp_no;
 
 -- Task four: List dept of each employee ( dept number, last name, first name, dept name)
 -- >> THERE IS A DUPLICATED EMPLOYEE NUMBER (emp_no)
@@ -64,32 +63,40 @@ LEFT JOIN dept_emp de
 ON e.emp_no = de.emp_no
 JOIN departments d
 ON d.dept_no = de.dept_no
-ORDER BY e.last_name
+ORDER BY e.last_name;
 
 -- Task five: List employees first name "Hercules", last name "B" (first name, last name, sex)
 
+SELECT e.last_name, e.first_name, e.sex
+FROM employees e
+WHERE e.last_name like 'B%'
+AND e.first_name = 'Hercules';
+
 -- Task six: List all employees in Sales dept (employee number, last name, first name, dept. name)
+SELECT e.last_name, e.first_name, de.emp_no, d.dept_name
+FROM employees e
+JOIN dept_emp de
+ON e.emp_no = de.emp_no
+JOIN departments d
+ON de.dept_no = d.dept_no
+WHERE d.dept_name = 'Sales';
 
 -- Task seven: List all employees in Sales and Development dept. (emp number, last name, first name, dept name)
+SELECT e.last_name, e.first_name, de.emp_no, d.dept_name
+FROM employees e
+JOIN dept_emp de
+ON e.emp_no = de.emp_no
+JOIN departments d
+ON de.dept_no = d.dept_no
+WHERE d.dept_name = 'Sales'
+OR d.dept_name = 'Development';
 
 -- Task eight: List in descending order freqency count of employee last names 
 -- (i.e. how many employees share each last name.)
+SELECT e.last_name, COUNT(e.last_name) AS "name count"
+FROM employees e
+GROUP BY e.last_name
+ORDER BY "name count" DESC;
 
 -- BONUS: import into pandas AS A DATABASE, generate a visualization - HISTOGRAM of most common salary ranges for employees
 -- BONUS: create a bar chart of average salary by title.
-
-
-
-
--- -- CODE to VIEW
--- SELECT *
--- FROM employees
--- ORDER BY emp_no
-
--- -- CODE TO RESET
--- DROP TABLE departments
--- DROP TABLE dept_emp
--- DROP TABLE dept_manager
--- DROP TABLE employees
--- DROP TABLE salaries
--- DROP TABLE titles
