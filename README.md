@@ -3,7 +3,7 @@
 #### SCHEMA.sql
 Main section of the assignment. Includes all SQL code.
 
-#### ERD-SQL Challnege.svg
+#### ERD-SQL Challenge.svg
 Image of the ERD developed as a basic guide for connecting the tables.
 
 #### SQL Challenge BONUS Round.ipynb and .py
